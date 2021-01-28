@@ -35,6 +35,14 @@ $ yum -y install java-1.7.0-openjdk
 
 kafka在官网已经描述的非常详细，在这里就不过多说明，安装、启动请查看[这里](http://kafka.apache.org/documentation.html#quickstart).
 
+本人
+采用docker安装
+启动zookeeper
+docker run -d --restart=always --log-driver json-file --log-opt max-size=100m --log-opt max-file=2  --name zookeeper -p 2181:2181 -v /etc/localtime:/etc/localtime wurstmeister/zookeeper
+启动kafka
+docker run -d --restart=always --log-driver json-file --log-opt max-size=100m --log-opt max-file=2 --name kafka -p 9092:9092 -e KAFKA_BROKER_ID=0 -e KAFKA_ZOOKEEPER_CONNECT=127.0.0.1:2181/kafka -e KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://127.0.0.1:9092 -e KAFKA_LISTENERS=PLAINTEXT://0.0.0.0:9092  -v /etc/localtime:/etc/localtime wurstmeister/kafka
+https://www.cnblogs.com/engzhangkai/p/12676613.html
+
 ### 三、搭建golang环境
 1.下载源码(根据自己的系统下载对应的[安装包](http://golang.org/dl/))
 ```sh
