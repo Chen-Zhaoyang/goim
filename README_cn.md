@@ -38,10 +38,11 @@ kafka在官网已经描述的非常详细，在这里就不过多说明，安装
 本人
 采用docker安装
 启动zookeeper
-docker run -d --restart=always --log-driver json-file --log-opt max-size=100m --log-opt max-file=2  --name zookeeper -p 2181:2181 -v /etc/localtime:/etc/localtime wurstmeister/zookeeper
+docker run -d --name zookeeper --publish 2181:2181 \--volume /tmp/localtime:/tmp/localtime \wurstmeister/zookeeper
 启动kafka
-docker run -d --restart=always --log-driver json-file --log-opt max-size=100m --log-opt max-file=2 --name kafka -p 9092:9092 -e KAFKA_BROKER_ID=0 -e KAFKA_ZOOKEEPER_CONNECT=127.0.0.1:2181/kafka -e KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://127.0.0.1:9092 -e KAFKA_LISTENERS=PLAINTEXT://0.0.0.0:9092  -v /etc/localtime:/etc/localtime wurstmeister/kafka
-https://www.cnblogs.com/engzhangkai/p/12676613.html
+docker run -d --name kafka --publish 9082:9092 \--link zookeeper:zookeeper \--env KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://127.0.0.1:9092 \--env KAFKA_BROKER_ID=1 \--env HOST_IP=localhost \--env KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181 \--env KAFKA_ADVERTISED_HOST_NAME=localhost \--env KAFKA_ADVERTISED_PORT=9082 \--volume /tmp/localtime:/tmp/localtime \wurstmeister/kafka
+
+https://www.jianshu.com/p/9552871bb40a (文章有错误 命令是修改过的)
 
 ### 三、搭建golang环境
 1.下载源码(根据自己的系统下载对应的[安装包](http://golang.org/dl/))
