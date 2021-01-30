@@ -17,7 +17,8 @@ clean:
 	rm -rf dist/
 
 run:
-	nohup dist/bin/discovery -conf dist/conf -confkey discovery.toml -log.dir dist/log & > dist/nohup.out
+	//nohup dist/bin/discovery -conf dist/conf -confkey discovery.toml -log.dir dist/log & > dist/nohup.out
+	nohup dist/bin/discovery -conf dist/conf/discovery.toml -log.dir dist/log & > dist/nohup.out  //真正能用的
 
 stop:
 	pkill -f dist/bin/discovery
